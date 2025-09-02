@@ -5,7 +5,7 @@ import requests
 
 class LLMService:
     def __init__(self):
-        self.api_key = "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"
+        self.api_key = "your_api_key"
         self.model = "qwen/qwen-2.5-72b-instruct:free"
         self.base_url = "https://openrouter.ai/api/v1"
     
