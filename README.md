@@ -94,11 +94,9 @@ curl -X POST "http://127.0.0.1:8000/api/deploy" \
   -d '{"repo_url": "https://github.com/user/spring-boot-app.git"}'
 ```
 
-### Deploy Node.js + Vue:
+### Check Deployment Status:
 ```bash
-curl -X POST "http://127.0.0.1:8000/api/deploy" \
-  -H "Content-Type: application/json" \
-  -d '{"repo_url": "https://github.com/user/nodejs-vue-app.git"}'
+curl -X GET "http://127.0.0.1:8000/api/status/my-app"
 ```
 
 ## Response Examples
@@ -108,11 +106,13 @@ curl -X POST "http://127.0.0.1:8000/api/deploy" \
 {
   "message": "Deployment successful",
   "repo_name": "my-app",
-  "backend_url": "http://127.0.0.1:8080",
-  "frontend_url": "http://127.0.0.1:3000",
+  "backend_url": "http://127.0.0.1:7543",
+  "backend_port": 7543,
+  "frontend_url": "http://127.0.0.1:4221",
+  "frontend_port": 4221,
   "backend_technology": "java (spring)",
   "frontend_technology": "react",
-  "note": "Both java backend and react frontend are running"
+  "note": "Both java backend (port 7543) and react frontend (port 4221) are running"
 }
 ```
 
@@ -121,10 +121,23 @@ curl -X POST "http://127.0.0.1:8000/api/deploy" \
 {
   "message": "Deployment successful",
   "repo_name": "api-server",
-  "backend_url": "http://127.0.0.1:8080",
+  "backend_url": "http://127.0.0.1:8234",
+  "backend_port": 8234,
   "backend_technology": "java (spring)",
-  "note": "Only java backend is running",
+  "note": "Only java backend is running on port 8234",
   "warning": "Frontend not found in repository"
+}
+```
+
+### Status Check Response:
+```json
+{
+  "repo_name": "my-app",
+  "backend_ports": [7543],
+  "frontend_ports": [4221],
+  "backend_urls": ["http://127.0.0.1:7543"],
+  "frontend_urls": ["http://127.0.0.1:4221"],
+  "status": "running"
 }
 ```
 
@@ -133,11 +146,12 @@ curl -X POST "http://127.0.0.1:8000/api/deploy" \
 - ✅ **Universal Language Support** - Python, Java, Node.js, C#, Go, PHP, Ruby
 - ✅ **AI-Powered Analysis** - LLM analyzes repository structure
 - ✅ **Smart Command Generation** - Automatic build/run commands
-- ✅ **Automatic Port Management** - No port conflicts
+- ✅ **Smart Port Management** - Backend (7001-9999), Frontend (3005-5999)
 - ✅ **API URL Synchronization** - Frontend connects to backend automatically
-- ✅ **Health Checks** - Monitor deployment status
+- ✅ **Health Checks** - Monitor deployment status with exact ports
 - ✅ **Pure LLM Analysis** - 100% AI-powered deployment decisions
 - ✅ **Technology Detection** - Identifies frameworks and versions
+- ✅ **Port Range Control** - Configurable port ranges for different services
 
 ## How It Works
 

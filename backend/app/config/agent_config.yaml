@@ -1,0 +1,33 @@
+deployment_agent:
+  model: "qwen/qwen-2.5-72b-instruct:free"
+  aws_region: "ap-south-2"
+  
+steps:
+  - analyze_repository
+  - generate_missing_files
+  - upload_to_s3
+  - launch_ec2_instance
+  - deploy_to_ec2
+  - configure_nginx
+  - return_public_url
+
+tools:
+  - dockerfile_generator
+  - ec2_manager
+  - s3_manager
+  - nginx_manager
+  - cloudwatch_logger
+
+aws_config:
+  # Use existing EC2 instance instead of launching new one
+  existing_instance_id: "i-074167a7eb45800c4"
+  existing_instance_ip: "40.192.71.230"
+  security_group_id: "sg-04bc63d3fe14b1811"
+  key_pair: "deployment-key"
+  region: "ap-south-2"
+  mock_mode: false  # Disable mock mode for real deployment
+  local_mode: false  # Force AWS deployment
+  
+nginx_config:
+  base_port: 3000
+  max_apps: 50
